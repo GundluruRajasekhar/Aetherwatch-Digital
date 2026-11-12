@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AetherWatch AI · Design Time, Health & Wellness Your Way</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@600;700&family=JetBrains+Mono:wght@600;700&family=Jost:wght@400;500;600;700&display=swap">
+<style>
+:root{--accent:#d9b46a;--bg:#2b2415;--wx:#ffd27a2a;--tf:"Jost",system-ui,sans-serif;--ink:#f5f1e8;--mute:#8e98a8;--glass:#ffffff10;--red:#e8454f;--pink:#ff6b81;--cyan:#4cc9e8;--ok:#6fd0a0;--ui:"Jost","Segoe UI",Arial,sans-serif}
+*{box-sizing:border-box;margin:0}
+body{background:#05060a;color:#d8dde6;font:400 18px/1.5 var(--ui);min-height:100vh;display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:32px;padding:32px;align-items:center}
+@media(max-width:900px){body{grid-template-columns:1fr;padding:16px}}
+.stage{display:grid;justify-items:center;gap:16px}.scale{width:min(466px,92vw)}.note{color:var(--mute);font-size:17px;text-align:center}
+.watch{width:466px;height:466px;transform-origin:top left;border-radius:50%;padding:10px;background:conic-gradient(from 20deg,#3a414c,#6b7482,#2b313a,#5a6370,#3a414c);box-shadow:0 30px 70px #000d,inset 0 0 0 2px #ffffff22}
+.face{position:relative;width:100%;height:100%;border-radius:50%;overflow:hidden;color:var(--ink);cursor:grab;outline:none;background:radial-gradient(circle at 50% 28%,var(--bg),#000 72%);transition:background .8s}
+.face:focus-visible{box-shadow:0 0 0 4px var(--accent)}
+.face::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,#ffffff06 0 1px,transparent 1px 4px);pointer-events:none}
+.face::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 20%,var(--wx),transparent 65%);pointer-events:none;transition:background .8s}
+.amb-on.face{background:#000}.amb-on.face::before,.amb-on.face::after{display:none}
+svg.dial{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.pg{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;padding-top:56px;z-index:2}
+.pg.c{justify-content:center;padding-top:0;text-align:center;gap:10px}
+.pg h2{font:700 34px/1.1 var(--tf)}.ttl{font:600 22px var(--ui);color:var(--accent);letter-spacing:.12em;margin-bottom:8px}
+.dim{color:var(--mute);font-size:21px}.ic{width:25px;height:25px;flex:none}.acc{color:var(--accent)}
+.top{order:1;display:flex;gap:46px;align-items:center;color:var(--accent);font:700 24px var(--ui)}
+.sun{order:2;width:24px;height:24px;border-radius:50%;background:var(--accent);margin-top:6px;box-shadow:0 0 18px var(--accent);position:relative;overflow:hidden}
+.sleepmode .sun::after{content:"";position:absolute;width:20px;height:20px;border-radius:50%;background:#0a0e19;left:8px;top:-3px}
+.time{order:4;font:700 104px/1 var(--tf);letter-spacing:-.02em;margin-top:4px;text-shadow:0 0 30px color-mix(in srgb,var(--accent) 35%,transparent)}
+.time i{font-style:normal;color:var(--accent)}
+.greet{order:5;font:600 26px var(--ui);color:var(--accent);margin-top:2px}
+.dt{order:6;display:flex;gap:26px;align-items:center;font:500 27px var(--ui);margin-top:4px}.dt span:first-child{color:var(--mute)}
+.dt .w{display:inline-flex;gap:8px;align-items:center;color:var(--ink)}.dt .w .ic{color:var(--accent)}
+.pill{order:7;margin-top:12px;display:flex;gap:14px;align-items:center;padding:8px 18px;border-radius:30px;background:var(--glass);border:1px solid #ffffff18;backdrop-filter:blur(8px);font:700 23px var(--ui)}
+.pill span{display:inline-flex;gap:7px;align-items:center}.pill .ic{color:var(--accent)}.pill .h .ic{color:var(--pink)}.pill u{width:1px;height:26px;background:#ffffff30}
+.swap .pill{order:3;margin-top:10px}
+.grid{display:grid;grid-template-columns:150px 150px;gap:9px}
+.tile{display:flex;gap:8px;align-items:center;padding:7px 10px;border-radius:16px;background:var(--glass);border:1px solid #ffffff14}
+.tile b{display:block;font:700 24px/1.1 var(--ui)}.tile small{display:block;font:400 21px/1.1 var(--ui);color:var(--mute)}.tile .ic{color:var(--accent)}
+.row3{display:flex;gap:16px;font:700 22px var(--ui);margin-top:6px}.row3 span{display:inline-flex;gap:6px;align-items:center}.row3 .ic{color:var(--accent)}
+.big{font:700 70px/1 var(--tf)}
+.chips{display:flex;gap:8px;margin:2px 0 8px;flex-wrap:wrap;justify-content:center;max-width:320px}
+.chip{font:600 21px var(--ui);padding:6px 12px;border-radius:24px;border:1.5px solid #ffffff30;background:var(--glass);color:var(--ink);cursor:pointer;min-height:44px;display:inline-flex;gap:6px;align-items:center}
+.chip.on{background:var(--accent);color:#120d04;border-color:var(--accent)}
+.lines{display:grid;gap:7px;width:318px;font:500 21px/1.25 var(--ui)}.lines div{display:flex;gap:10px;align-items:flex-start}.lines .ic{color:var(--accent);margin-top:1px}
+.lines .bad .ic{color:var(--red)}
+.txt{width:310px;text-align:center;font:500 22px/1.3 var(--ui);margin-top:8px}
+.list{display:grid;gap:7px}
+.th{display:flex;gap:12px;align-items:center;width:270px;padding:7px 14px;border-radius:26px;border:1.5px solid #ffffff22;background:var(--glass);color:var(--ink);font:600 22px var(--ui);cursor:pointer;min-height:46px}
+.th.on{border-color:var(--accent)}.th s{width:26px;height:26px;border-radius:50%;flex:none}
+.sosbtn{width:190px;height:190px;border-radius:50%;border:0;background:radial-gradient(circle at 40% 30%,#ff7a7f,var(--red));color:#fff;font:700 44px var(--ui);cursor:pointer;box-shadow:0 0 40px #e8454f66}.sosbtn.cancel{background:#222a34;font-size:30px;box-shadow:none}
+.amb-time{font:700 100px/1 var(--tf);color:transparent;-webkit-text-stroke:2px #cfcfcf;margin-top:6px}.amb-time i{font-style:normal;-webkit-text-stroke:0;color:#cfcfcf}
+.amb-info{margin-top:10px;font:500 21px/1.3 var(--ui);color:#b8b8b8;text-align:left;display:grid;gap:0}.amb-info b{color:#e6e6e6}
+.dots{position:absolute;bottom:13px;left:0;right:0;display:flex;justify-content:center;gap:6px;z-index:3;pointer-events:none}
+.dots i{width:7px;height:7px;border-radius:50%;background:#ffffff35}.dots i.on{width:18px;border-radius:6px;background:var(--accent)}
+.panel{background:#0f1318d0;border:1px solid #ffffff14;border-radius:22px;padding:24px;display:grid;gap:14px}
+h1{font:700 30px/1.1 "Bodoni Moda",serif;color:#f5f1e8}.tag{color:var(--accent);font-size:18px}
+.btns{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btns button{font:600 18px var(--ui);padding:12px 8px;min-height:48px;border-radius:14px;border:1px solid #ffffff22;background:#171b21;color:#d8dde6;cursor:pointer}
+.btns button:hover{border-color:var(--accent)}.btns button[aria-pressed=true]{border-color:var(--accent);color:var(--accent)}
+.btns .primary{background:linear-gradient(135deg,var(--accent),#8a6a2e);color:#120d04;border:0}.btns .stop{background:#2a1416;color:#ffb3b3}.btns .wide{grid-column:span 2}
+button:focus-visible,select:focus-visible,.chip:focus-visible,.th:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.sel{display:grid;gap:8px}.sel label{display:flex;justify-content:space-between;align-items:center;font-size:18px}
+select{font:500 18px var(--ui);background:#171b21;color:#d8dde6;border:1px solid #ffffff22;border-radius:10px;padding:8px 10px;min-height:44px}
+#caption{min-height:112px;border-left:3px solid var(--accent);padding-left:14px}
+#caption b{display:block;font:700 21px "Bodoni Moda",serif;color:#f5f1e8;margin-bottom:4px}
+.metrics{display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:17px;color:var(--mute)}.metrics b{color:#d8dde6}
+small{color:var(--mute);font-size:15px}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<main class="stage">
+  <div class="scale" id="scale"><div class="watch" id="watch"><div class="face" id="face" tabindex="0" aria-label="AetherWatch AI watch face. Swipe or use arrow keys to change screens."></div></div></div>
+  <p class="note">466 × 466 AMOLED preview · swipe, use the arrow buttons, or press ← →</p>
+</main>
+<aside class="panel">
+  <div><h1>AetherWatch AI</h1><div class="tag">Design Time, Health &amp; Wellness Your Way</div></div>
+  <div class="btns">
+    <button class="primary" id="startTour">START TOUR</button>
+    <button class="stop" id="stopTour">STOP TOUR</button>
+    <button id="prev">← Previous</button><button id="next">Next →</button>
+    <button id="amb" aria-pressed="false">Ambient mode</button>
+    <button id="snd" aria-pressed="true">Sound: On</button>
+    <button id="voice">Voice assistant</button><button id="auto">Auto personalise</button>
+  </div>
+  <div class="sel">
+    <label>Time of day <select id="ctx"><option value="auto">Auto (clock)</option><option value="morning">Morning</option><option value="afternoon">Afternoon</option><option value="evening">Evening</option><option value="sleep">Night</option></select></label>
+    <label>Weather <select id="wx"><option value="sunny">Sunny</option><option value="cloudy">Cloudy</option><option value="rain">Rainy</option><option value="storm">Storm</option><option value="cold">Cold</option></select></label>
+  </div>
+  <div id="caption"><b>Ready</b>Press START TOUR for a narrated walkthrough. Turn your volume up.</div>
+  <div class="metrics"><div>Screen: <b id="mScreen"></b></div><div>Health score: <b id="mScore"></b></div><div>Context: <b id="mCtx"></b></div><div>Battery AI: <b id="mBat"></b></div></div>
+  <small>Wellness and diet tips are general lifestyle guidance, not medical advice.</small>
+</aside>
+<script>
+(()=>{
+const $=s=>document.querySelector(s),C=(v,a,b)=>Math.max(a,Math.min(b,v)),P=n=>String(n).padStart(2,'0');
+const DATE='11/11/2026',DAY='WED';
+const CTX={morning:{n:'Morning',g:'Good Morning',a:'#d9b46a',bg:'#2b2415'},afternoon:{n:'Afternoon',g:'Good Afternoon',a:'#4cc9e8',bg:'#10282f'},evening:{n:'Evening',g:'Good Evening',a:'#ff8a65',bg:'#2d1710'},sleep:{n:'Night',g:'Good Night',a:'#8da2c8',bg:'#0a0e19'}};
+const THEMES=[['Gold Classic','#d9b46a'],['Cyan Aero','#4cc9e8'],['Rose Ember','#ff8a65'],['Titanium','#cfd6e0'],['Emerald','#5fd6a0']];
+const FONTS=['Jost','Bodoni Moda','JetBrains Mono'];
+const WX={sunny:['Sunny','#ffd27a2a',27,'sun'],cloudy:['Cloudy','#9aa5b42a',24,'cloud'],rain:['Rainy','#4f7bd638',22,'rain'],storm:['Storm','#7a5af840',20,'storm'],cold:['Cold','#8fd3ff30',8,'snow']};
+const PAGES=['Welcome','Main face','Health hub','Activity','AI insights','Weather intelligence','Battery AI','Personalise','Theme gallery','SOS','Ambient','AI Diet Coach','Nutrition dashboard','Water tracker','Diabetes care','Blood pressure care','Weekly nutrition report','Sleep intelligence','Medication reminders','Weekly health report','AI health predictions','Family health mode','Voice AI assistant','Design system'];
+const DIET={sugar:{m:['Vegetable omelette, oats, unsweetened tea.','Whole wheat roti, dal, mixed vegetables, salad.','Sprouts and nuts.','Millets, vegetable curry, soup.'],avoid:'White sugar, sweets, cakes, white bread, sugary drinks.',rec:'Your glucose levels are stable. Maintain hydration and aim for 8,000 steps today.',tip:'Eat more fibre.'},
+ bp:{m:['Oats porridge, low-fat milk, banana, almonds.','Brown rice, dal, spinach curry, cucumber salad.','Green tea and roasted chickpeas.','Chapati, mixed vegetables, grilled paneer or fish.'],avoid:'Excess salt, processed foods, instant noodles, fried foods, soft drinks.',rec:'Your blood pressure is slightly elevated today. Reduce sodium intake and complete a 30-minute walk.',tip:'Reduce sodium.'}};
+const MEALS=['Morning','Lunch','Snack','Dinner'];
+const S={page:0,ctx:'auto',accent:null,font:0,swap:false,amb:false,sound:true,steps:8450,bpm:72,bat:85,stress:25,sleepScore:90,sleep:7.5,cons:85,water:1900,sys:128,dia:82,cond:'sugar',meals:{b:1,l:1,d:1},ms:0,meds:{m:1,a:0,n:0},fam:0,vq:'',va:'',demoI:0,sos:-1,wx:'sunny',tourTok:0,tourOn:false,timers:[]};
+const ICONS={heart:'<path d="M12 21s-8-5.2-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 5.8-8 11-8 11z"/>',bars:'<path d="M5 20V12M10 20V8M15 20V4M20 20V10"/>',batt:'<rect x="2" y="7" width="17" height="10" rx="2"/><path d="M22 11v2"/><rect x="4.5" y="9.5" width="9" height="5" fill="currentColor" stroke="none"/>',
+ sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/>',cloud:'<path d="M7 18a4 4 0 0 1-.5-8A6 6 0 0 1 18 11a3.5 3.5 0 0 1-.5 7z"/>',rain:'<path d="M7 14a4 4 0 0 1-.5-8A6 6 0 0 1 18 7a3.5 3.5 0 0 1-.5 7zM8 17l-1 3M12 17l-1 3M16 17l-1 3"/>',
+ storm:'<path d="M7 14a4 4 0 0 1-.5-8A6 6 0 0 1 18 7a3.5 3.5 0 0 1-.5 7zM12 14l-2 4h3l-2 4"/>',snow:'<path d="M12 2v20M4 7l16 10M20 7L4 17"/>',
+ bt:'<path d="M7 7l10 10-5 4V3l5 4L7 17"/>',bell:'<path d="M6 16v-5a6 6 0 0 1 12 0v5l2 2H4zM10 21h4"/>',drop:'<path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/>',
+ pulse:'<path d="M2 12h4l3-7 4 14 3-7h6"/>',moon:'<path d="M20 14A8 8 0 0 1 10 4a8 8 0 1 0 10 10z"/>',food:'<path d="M5 3v8a3 3 0 0 0 3 3v7M8 3v6M11 3v8a3 3 0 0 1-3 3M18 21V3c-3 2-4 6-4 9h4"/>',
+ walk:'<circle cx="13" cy="4" r="2"/><path d="M12 8l-3 5 3 3v5M12 8l4 3 3 1M9 13l-3 1"/>',cup:'<path d="M6 4h12l-1 14a3 3 0 0 1-3 3h-4a3 3 0 0 1-3-3zM7 10h10"/>',
+ cal:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',check:'<path d="M5 13l4 4L19 7"/>',x:'<path d="M6 6l12 12M18 6L6 18"/>',flame:'<path d="M12 3c1 4 5 5 5 10a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 2 2 2 0-3-1-5 1-8z"/>',plus:'<path d="M12 5v14M5 12h14"/>',pill:'<rect x="3" y="8" width="18" height="8" rx="4" transform="rotate(-35 12 12)"/><path d="M9.5 9.2l5 5.6"/>',mic:'<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/>',trend:'<path d="M3 17l6-6 4 4 8-8M15 7h6v6"/>'};
+const ic=n=>`<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICONS[n]}</svg>`;
+const hourCtx=h=>h>=5&&h<12?'morning':h>=12&&h<17?'afternoon':h>=17&&h<21?'evening':'sleep';
+const ctxNow=()=>S.ctx==='auto'?hourCtx(new Date().getHours()):S.ctx;
+const accent=()=>S.accent||CTX[ctxNow()].a;
+const L=n=>Math.round(n).toLocaleString('en-US');
+const score=()=>Math.round(.25*C(S.steps/100,0,100)+.25*S.sleepScore+.2*C(S.water/25,0,100)+.15*C(100-Math.abs(S.bpm-65)*1.5,0,100)+.15*S.cons);
+const wellness=()=>score()>=85?'Excellent':score()>=70?'Good':'Needs care';
+const batMode=()=>S.amb||S.page===10?'Active · 1 fps':S.bat<25?'Saver mode':'Smart power';
+const pt=(a,r)=>[223+r*Math.sin(a),223-r*Math.cos(a)];
+function arcP(f,r,w,col,cx=223,cy=223){const a=C(f,0,.999)*2*Math.PI,x=cx+r*Math.sin(a),y=cy-r*Math.cos(a);return `<path d="M${cx} ${cy-r} A${r} ${r} 0 ${a>Math.PI?1:0} 1 ${x} ${y}" fill="none" stroke="${col}" stroke-width="${w}" stroke-linecap="round"/>`}
+function dial(amb){let t='';for(let i=0;i<60;i++){const maj=i%5===0;if(amb&&!maj)continue;const a=i*Math.PI/30,[x1,y1]=pt(a,maj?176:186),[x2,y2]=pt(a,200);t+=`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${maj?(amb?'#6b5a33':'var(--accent)'):'#ffffff26'}" stroke-width="${maj?5:2}" stroke-linecap="round"/>`}
+ if(amb)return `<svg class="dial" viewBox="0 0 446 446">${t}</svg>`;const f=S.steps/10000,[ex,ey]=pt(C(f,0,.999)*2*Math.PI,205);
+ return `<svg class="dial" viewBox="0 0 446 446">${t}${arcP(f,205,6,'var(--accent)')}<circle cx="${ex}" cy="${ey}" r="9" fill="#f7e6b8"/></svg>`}
+const timeHTML=()=>{const d=new Date();return `${P(d.getHours())}<i>:</i>${P(d.getMinutes())}`};
+const chips=(items,cur,act)=>`<div class="chips">${items.map(([k,l])=>`<button class="chip ${cur===k?'on':''}" data-act="${act}:${k}">${l}</button>`).join('')}</div>`;
+const condChips=()=>chips([['sugar','Sugar'],['bp','BP']],S.cond,'cond');
+function pill(c){const b=`<span>${ic('batt')}${L(S.bat)}%</span>`;
+ if(c==='afternoon')return `<span>${ic('cal')}3:30 PM</span><u></u><span>${ic('check')}3 tasks</span><u></u>${b}`;
+ if(c==='evening')return `<span>${ic('bars')}${L(S.steps)}</span><u></u><span>${ic('flame')}342</span><u></u>${b}`;
+ if(c==='sleep')return `<span>${ic('moon')}Sleep prep</span><u></u>${b}`;
+ return `<span class="h">${ic('heart')}${L(S.bpm)}</span><u></u><span>${ic('bars')}${L(S.steps)}</span><u></u>${b}`}
+const VIEW=[
+ ()=>`<div class="pg c"><svg width="90" height="90" viewBox="0 0 90 90" fill="none" stroke="var(--accent)" stroke-width="3"><circle cx="35" cy="45" r="26"/><circle cx="55" cy="45" r="26"/></svg><h2>AetherWatch AI</h2><div class="acc" style="font:500 21px/1.25 var(--ui);max-width:300px">Design Time, Health &amp; Wellness Your Way</div><p class="dim">Swipe to begin</p></div>`,
+ ()=>{const c=ctxNow(),w=WX[S.wx];return `<div class="pg ${S.swap?'swap':''} ${c==='sleep'?'sleepmode':''}"><div class="top">${ic('bt')}<span>${DAY}</span>${ic('bell')}</div><div class="sun"></div><div class="time">${timeHTML()}</div><div class="greet">${CTX[c].g}</div>
+  <div class="dt"><span>${DATE}</span><span class="w">${ic(w[3])}${w[2]}°C</span></div><div class="pill">${pill(c)}</div></div>`},
+ ()=>`<div class="pg"><div class="ttl">HEALTH HUB</div><div class="grid">${[['heart',L(S.bpm),'BPM'],['bars',L(S.steps),'Steps'],['moon',S.sleepScore,'Sleep'],['walk',Math.min(100,Math.round(S.steps/100)),'Activity'],['drop',(S.water/1000).toFixed(1)+' L','Water'],['pulse',L(S.stress)+'%','Stress']].map(t=>`<div class="tile">${ic(t[0])}<div><b>${t[1]}</b><small>${t[2]}</small></div></div>`).join('')}</div><div class="txt acc" style="margin-top:8px">Wellness Index: ${wellness()}</div></div>`,
+ ()=>{const f=[S.steps/10000,342/500,8/12],R=[88,68,48],K=['var(--accent)','var(--cyan)','var(--pink)'];
+  return `<div class="pg"><div class="ttl">ACTIVITY</div><svg width="200" height="200" viewBox="0 0 200 200">${R.map((r,i)=>`<circle cx="100" cy="100" r="${r}" fill="none" stroke="#ffffff14" stroke-width="14"/>`+arcP(f[i],r,14,K[i],100,100)).join('')}</svg><div class="row3"><span>${ic('bars')}${L(S.steps)}</span><span>${ic('flame')}342</span><span>${ic('walk')}6.4 km</span></div></div>`},
+ ()=>{const rem=Math.max(0,Math.round((10000-S.steps)/50)*50);return `<div class="pg"><div class="ttl">AI INSIGHTS</div><div class="big acc">${score()}</div><div class="dim">Health score / 100</div><div class="txt">${rem>0?`Excellent activity level today. Complete ${L(rem)} additional steps to reach your daily goal.`:'Daily step goal reached. Great consistency.'}</div></div>`},
+ ()=>{const w=WX[S.wx];return `<div class="pg"><div class="ttl">WEATHER</div><div style="color:var(--accent)"><svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${ICONS[w[3]]}</svg></div><div class="big" style="font-size:54px">${w[2]}°C</div><div class="txt" style="margin:0 0 8px">${w[0]}</div>${chips(Object.keys(WX).map(k=>[k,ic(WX[k][3])]),S.wx,'wx')}</div>`},
+ ()=>{const f=S.bat/100;return `<div class="pg"><div class="ttl">BATTERY AI</div><svg width="150" height="150" viewBox="0 0 150 150"><circle cx="75" cy="75" r="62" fill="none" stroke="#ffffff14" stroke-width="12"/>${arcP(f,62,12,S.bat<25?'var(--red)':'var(--ok)',75,75)}<text x="75" y="86" text-anchor="middle" fill="#f5f1e8" font-size="34" font-weight="700" font-family="Jost,sans-serif">${L(S.bat)}%</text></svg><div class="txt" style="margin-top:6px"><b class="acc">${S.bat<25?'Saver mode':'Smart power'}</b><br>About ${Math.round(S.bat*.45)} h left</div><div class="txt dim" style="margin-top:2px">${S.bat<25?'Sensors slowed. Screen dimmed.':'AI dims the screen after 9 pm.'}</div></div>`},
+ ()=>`<div class="pg"><div class="ttl">PERSONALISE</div><div class="dim">Font</div>${chips(FONTS.map((f,i)=>[i,`<span style="font-family:${f}">Aa</span>`]),S.font,'font')}<div class="dim">Layout</div>${chips([[0,'Classic'],[1,'Stats top']],S.swap?1:0,'swap')}<div class="dim">Colour</div>${chips([[0,'Auto AI']],S.accent?-1:0,'auto')}</div>`,
+ ()=>`<div class="pg"><div class="ttl">THEMES</div><div class="list">${THEMES.map((t,i)=>`<button class="th ${S.accent===t[1]?'on':''}" data-act="theme:${i}"><s style="background:${t[1]}"></s>${t[0]}</button>`).join('')}</div></div>`,
+ ()=>{const c=S.sos>=0;return `<div class="pg c"><div class="ttl" style="margin:0">SOS</div><button class="sosbtn ${c?'cancel':''}" data-act="${c?'cancel':'sos'}:0">${c?(S.sos>0?'Cancel':'Sent'):'SOS'}</button><div class="txt" style="margin-top:6px">${!c?'Tap to call your emergency contact':S.sos>0?`Calling Family contact in ${S.sos}s`:'Contact notified. Location shared.'}</div></div>`},
+ ()=>`<div class="pg" style="padding-top:44px"><div class="amb-time">${timeHTML()}</div><div class="dt" style="margin-top:8px;color:#bbb"><span>${DATE}</span><span class="w">${ic('sun')}${WX[S.wx][2]}°C</span></div><div class="amb-info"><div>Screen: <b>Ambient</b></div><div>Health Score: <b>${score()}/100</b></div><div>Status: <b>Optimised</b></div><div>Battery AI: <b>Active</b></div></div></div>`,
+ ()=>{const d=DIET[S.cond],m=S.meals;const mc=(k,l)=>`<button class="chip ${m[k]?'on':''}" data-act="meal:${k}">${m[k]?ic('check'):''}${l}</button>`;
+  return `<div class="pg"><div class="ttl">DIET COACH</div>${condChips()}<div class="chips" style="margin:0 0 6px">${mc('b','Breakfast')}${mc('l','Lunch')}${mc('d','Dinner')}</div><div class="lines"><div>${ic('cup')}<span>Water goal: 2.5 L</span></div><div>${ic('heart')}<span>Health score: ${score()}/100</span></div><div>${ic('food')}<span>${d.tip} Complete your daily walking target.</span></div></div></div>`},
+ ()=>{const d=DIET[S.cond];return `<div class="pg"><div class="ttl">NUTRITION</div>${condChips()}${chips(MEALS.map((n,i)=>[i,n]),S.ms,'ms')}<div class="txt" style="margin-top:2px">${d.m[S.ms]}</div></div>`},
+ ()=>`<div class="pg"><div class="ttl">WATER</div><svg width="150" height="150" viewBox="0 0 150 150"><circle cx="75" cy="75" r="62" fill="none" stroke="#ffffff14" stroke-width="12"/>${arcP(S.water/2500,62,12,'var(--cyan)',75,75)}<text x="75" y="86" text-anchor="middle" fill="#f5f1e8" font-size="34" font-weight="700" font-family="Jost,sans-serif">${(S.water/1000).toFixed(2)}</text></svg><div class="txt" style="margin:4px 0 0">Goal 2.5 L · ${Math.round(S.water/25)}%</div>${chips([['add',ic('plus')+'250 ml'],['reset','Reset']],'','water')}</div>`,
+ ()=>{const d=DIET.sugar;return `<div class="pg"><div class="ttl">SUGAR CARE</div><div class="lines"><div>${ic('drop')}<span>Glucose: Stable</span></div><div class="bad">${ic('x')}<span>Avoid: ${d.avoid}</span></div><div>${ic('walk')}<span>${d.rec}</span></div></div></div>`},
+ ()=>{const d=DIET.bp;return `<div class="pg"><div class="ttl">BP CARE</div><div class="lines"><div>${ic('pulse')}<span>${S.sys}/${S.dia} · Slightly high</span></div><div class="bad">${ic('x')}<span>Avoid: ${d.avoid}</span></div><div>${ic('walk')}<span>${d.rec}</span></div></div></div>`},
+ ()=>{const v=[80,60,90,70,85,95,88],dn='MTWTFSS';return `<div class="pg"><div class="ttl">WEEKLY REPORT</div><svg width="300" height="130" viewBox="0 0 300 130">${v.map((x,i)=>`<rect x="${8+i*42}" y="${100-x*.9}" width="26" height="${x*.9}" rx="6" fill="${i===6?'var(--accent)':'#ffffff30'}"/><text x="${21+i*42}" y="124" text-anchor="middle" fill="#8e98a8" font-size="21" font-family="Jost,sans-serif">${dn[i]}</text>`).join('')}</svg><div class="txt" style="margin-top:6px">You usually miss breakfast on weekdays. Try a high-protein breakfast before 9 AM.</div></div>`},
+ ()=>{const seg=[['Deep',105,'var(--cyan)'],['Light',290,'var(--accent)'],['REM',55,'var(--pink)']];let x=0;
+  const bar=seg.map(([n,m,c])=>{const w=300*m/450,r=`<rect x="${x}" y="0" width="${w-2}" height="16" rx="6" fill="${c}"/>`;x+=w;return r}).join('');
+  return `<div class="pg"><div class="ttl">SLEEP</div><div class="big acc">86</div><div class="dim">Recovery score</div><svg width="300" height="16" style="margin:10px 0 6px">${bar}</svg><div class="row3" style="gap:18px">${seg.map(([n,m,c])=>`<span style="flex-direction:column;gap:0;align-items:center"><b style="color:${c}">${Math.floor(m/60)}h ${P(m%60)}m</b><small style="font-size:21px">${n}</small></span>`).join('')}</div><div class="txt" style="margin-top:6px">You slept 7.5 hours. Excellent recovery.</div></div>`},
+ ()=>{const d=[['m','Morning','8:00 AM'],['a','Afternoon','2:00 PM'],['n','Night','9:00 PM']],nx=d.find(x=>!S.meds[x[0]]);
+  return `<div class="pg"><div class="ttl">MEDICINE</div><div class="list">${d.map(([k,n,t])=>`<button class="th ${S.meds[k]?'on':''}" data-act="med:${k}" style="width:290px">${ic(S.meds[k]?'check':'pill')}<span>${n} · ${t}</span></button>`).join('')}</div><div class="txt" style="margin-top:6px">${nx?`Next: ${nx[1]} at ${nx[2]}`:'All doses taken. Well done.'}</div><div class="txt dim" style="margin-top:0">Follow your doctor's plan.</div></div>`},
+ ()=>{const v=[78,82,80,85,83,88,85],dn='MTWTFSS';return `<div class="pg"><div class="ttl">WEEKLY HEALTH</div><svg width="300" height="110" viewBox="0 0 300 110">${v.map((x,i)=>`<rect x="${8+i*42}" y="${84-(x-60)*2.2}" width="26" height="${(x-60)*2.2}" rx="6" fill="${i===6?'var(--accent)':'#ffffff30'}"/><text x="${21+i*42}" y="106" text-anchor="middle" fill="#8e98a8" font-size="21" font-family="Jost,sans-serif">${dn[i]}</text>`).join('')}</svg><div class="lines" style="margin-top:8px"><div>${ic('trend')}<span>Score up 7 points this week</span></div><div>${ic('moon')}<span>Best sleep: Sat, 92</span></div><div>${ic('walk')}<span>Step goal met 4 of 7 days</span></div></div></div>`},
+ ()=>{const R=[['Stress rising',S.stress>35?2:1],['Sleep steady',0],['BP slightly high',1],['Glucose stable',0]],col=['var(--ok)','#f0b429','var(--red)'],lab=['Low','Medium','High'];
+  return `<div class="pg"><div class="ttl">AI PREDICTIONS</div><div class="lines">${R.map(([t,l])=>`<div style="justify-content:space-between;align-items:center"><span style="display:flex;gap:8px;align-items:center"><i style="width:14px;height:14px;border-radius:50%;background:${col[l]};display:inline-block"></i>${t}</span><b style="color:${col[l]}">${lab[l]}</b></div>`).join('')}</div><div class="txt" style="margin-top:8px">Take a 5 minute breathing break this afternoon.</div><div class="txt dim" style="margin-top:0">Early alerts, not a diagnosis.</div></div>`},
+ ()=>{const F=[['Father',68,'5,120',0,'Medicine taken.'],['Mother',74,'4,200',0,'Medicine taken.'],['Grandparent',66,'900',1,'Low activity. Morning dose missed.']],f=F[S.fam];
+  return `<div class="pg"><div class="ttl">FAMILY</div><div class="list">${F.map((m,i)=>`<button class="th ${S.fam===i?'on':''}" data-act="fam:${i}" style="width:300px;justify-content:space-between"><span>${m[0]}</span><span style="display:flex;gap:8px;align-items:center;color:${m[3]?'#f0b429':'var(--ok)'}">${ic('heart')}${m[1]}</span></button>`).join('')}</div><div class="txt" style="margin-top:6px">${f[0]}: ${f[2]} steps. ${f[4]}</div></div>`},
+ ()=>`<div class="pg"><div class="ttl">VOICE AI</div><button class="sosbtn" data-act="mic:0" style="width:92px;height:92px;background:radial-gradient(circle at 40% 30%,var(--accent),#7a5d28);box-shadow:0 0 28px var(--accent);color:#120d04;display:grid;place-items:center"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">${ICONS.mic}</svg></button><div class="txt" style="margin-top:6px;min-height:78px;font-size:21px">${S.vq?`<span class="dim">“${S.vq}”</span><br>${S.va}`:'Tap the mic or pick a question.'}</div>${chips([[0,'Score'],[1,'Diet'],[2,'Medicine'],[3,'Sleep']],'','ask')}</div>`,
+ ()=>`<div class="pg"><div class="ttl">DESIGN SYSTEM</div><div class="chips" style="gap:10px;margin:2px 0 10px">${[['#000','Obsidian'],['#14171b','Graphite'],['#d9b46a','Gold'],['#4cc9e8','Cyan'],['#ff8a65','Ember']].map(c=>`<span title="${c[1]}" style="width:36px;height:36px;border-radius:50%;background:${c[0]};border:2px solid #ffffff40"></span>`).join('')}</div><div class="lines"><div>${ic('check')}<span>Type: Jost, Bodoni Moda, Mono</span></div><div>${ic('check')}<span>Text 21 px or larger</span></div><div>${ic('check')}<span>Touch targets 44 px or larger</span></div><div>${ic('check')}<span>Gold on black: over 10:1 contrast</span></div></div></div>`
+];
+function render(){const face=$('#face'),amb=S.amb||S.page===10,c=CTX[ctxNow()],r=document.documentElement.style;
+ r.setProperty('--accent',accent());r.setProperty('--bg',c.bg);r.setProperty('--wx',WX[S.wx][1]);r.setProperty('--tf',`"${FONTS[S.font]}",system-ui,sans-serif`);
+ face.classList.toggle('amb-on',amb);
+ face.innerHTML=dial(amb&&S.page!==0)+(amb&&S.page!==0?VIEW[10]():VIEW[S.page]())+`<div class="dots">${PAGES.map((_,i)=>i).slice(C(S.page-4,0,PAGES.length-9),C(S.page-4,0,PAGES.length-9)+9).map(i=>`<i class="${i===S.page?'on':''}"></i>`).join('')}</div>`;
+ $('#mScreen').textContent=PAGES[S.page];$('#mScore').textContent=score()+'/100';$('#mCtx').textContent=c.n+' · '+WX[S.wx][0];$('#mBat').textContent=batMode();$('#amb').setAttribute('aria-pressed',S.amb)}
+const go=n=>{S.page=(n+PAGES.length)%PAGES.length;render()};
+// sound
+let AC=null;
+function chime(f=[660,880],g0=.15){if(!S.sound)return;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();f.forEach((hz,i)=>{const o=AC.createOscillator(),g=AC.createGain(),t=AC.currentTime+i*.14;o.type='sine';o.frequency.value=hz;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(g0,t+.02);g.gain.exponentialRampToValueAtTime(.0001,t+.5);o.connect(g);g.connect(AC.destination);o.start(t);o.stop(t+.55)})}catch(e){}}
+function say(text,done){const syn=window.speechSynthesis;let fired=false;const fin=()=>{if(!fired){fired=true;done()}};
+ if(!S.sound||!syn||!window.SpeechSynthesisUtterance){S.timers.push(setTimeout(fin,4500));return}
+ try{syn.cancel();const u=new SpeechSynthesisUtterance(text),vs=syn.getVoices();u.rate=.95;u.pitch=1;u.volume=1;
+  const v=vs.find(x=>/en[-_]IN/i.test(x.lang))||vs.find(x=>/^en/i.test(x.lang));if(v){u.voice=v;u.lang=v.lang}u.onend=fin;u.onerror=fin;syn.speak(u)}catch(e){}
+ S.timers.push(setTimeout(fin,Math.max(6000,text.length*110)))}
+const later=(fn,ms)=>S.timers.push(setTimeout(fn,ms));
+// sos
+function sosStart(){S.sos=5;chime([990],.12);render();clearInterval(sosStart.t);sosStart.t=setInterval(()=>{S.sos--;if(S.sos<=0){clearInterval(sosStart.t);S.sos=0;chime([880,660,880],.15)}else chime([990],.1);render()},1000)}
+function sosCancel(){clearInterval(sosStart.t);S.sos=-1}
+// voice assistant
+const DEMO=['What is my health score?',"Show today's diet plan",'Next medicine?','How did I sleep?'];
+const nextDose=()=>[['m','Morning','8:00 AM'],['a','Afternoon','2:00 PM'],['n','Night','9:00 PM']].find(x=>!S.meds[x[0]]);
+const INTENTS=[
+ [/sos|emergency|help me/i,()=>['Starting emergency alert.','Starting emergency alert.'],'sos'],
+ [/score|wellness/i,()=>[`Health score ${score()}/100. ${wellness()}.`,`Your health score today is ${score()} out of 100. ${wellness()}.`],4],
+ [/diet|diabet|meal|food|eat|pressure/i,()=>{const d=DIET[S.cond],n=S.cond==='sugar'?'diabetes':'blood pressure';return [`Opening ${n} diet plan.`,`Here is today's ${n} diet plan. Morning: ${d.m[0]} Lunch: ${d.m[1]} Dinner: ${d.m[3]}`]},12],
+ [/medic|tablet|dose|pill/i,()=>{const x=nextDose(),t=x?`Next dose: ${x[1]} at ${x[2]}.`:'All doses taken today.';return [t,t]},18],
+ [/sleep|slept|recover/i,()=>['Slept 7h 30m. Recovery 86%.','You slept seven and a half hours. Recovery is eighty six percent.'],17],
+ [/water|hydrat|drink/i,()=>{const l=(S.water/1000).toFixed(1);return [`${l} L of 2.5 L today.`,`You have had ${l} litres of your 2.5 litre goal.`]},13],
+ [/family|parent|mother|father|grand/i,()=>['Grandparent needs attention.','Your parents are fine. Your grandparent has low activity today.'],21],
+ [/weather|temperature/i,()=>{const w=WX[S.wx];return [`${w[2]}°C and ${w[0].toLowerCase()}.`,`It is ${w[2]} degrees and ${w[0].toLowerCase()}.`]},5]
+];
+function ask(q,live=true){const it=INTENTS.find(x=>x[0].test(q));S.vq=q;
+ if(!it){S.va='Try: health score, diet plan, medicine, sleep.';render();if(live)say('Try asking for your health score, diet plan, medicine or sleep.',()=>{});return}
+ const[d,sp]=it[1]();S.va=d;render();if(!live)return;chime([784,988],.1);
+ say(sp,()=>{if(S.tourOn)return;S.timers.push(setTimeout(()=>{if(it[2]==='sos'){S.page=9;sosStart()}else if(typeof it[2]==='number'){S.page=it[2];render()}},500))})}
+function mic(){const R=window.SpeechRecognition||window.webkitSpeechRecognition;
+ if(R){try{const r=new R();r.lang='en-IN';r.interimResults=false;S.vq='';S.va='Listening…';render();r.onresult=e=>ask(e.results[0][0].transcript);r.onerror=()=>{S.va='Mic unavailable. Pick a question.';render()};r.onend=()=>{if(S.va==='Listening…'){S.va='Did not catch that.';render()}};r.start();return}catch(e){}}
+ ask(DEMO[S.demoI++%DEMO.length])}
+// events
+const fc=$('#face');
+fc.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b)return;const[a,v]=b.dataset.act.split(':');
+ if(a==='cond')S.cond=v;else if(a==='font')S.font=+v;else if(a==='swap')S.swap=S.swap?false:true;else if(a==='auto'){S.accent=null;S.ctx='auto';$('#ctx').value='auto'}
+ else if(a==='theme')S.accent=THEMES[+v][1];else if(a==='sos')sosStart();else if(a==='cancel'){sosCancel()}else if(a==='wx'){S.wx=v;$('#wx').value=v}
+ else if(a==='med')S.meds[v]=S.meds[v]?0:1;else if(a==='fam')S.fam=+v;else if(a==='mic')mic();else if(a==='ask')ask(DEMO[+v]);else if(a==='meal')S.meals[v]=S.meals[v]?0:1;else if(a==='ms')S.ms=+v;else if(a==='water'){S.water=v==='add'?Math.min(3000,S.water+250):1900;chime([880],.08)}
+ render()});
+let x0=null;fc.addEventListener('pointerdown',e=>x0=e.clientX);
+fc.addEventListener('pointerup',e=>{if(x0===null)return;const d=e.clientX-x0;x0=null;if(Math.abs(d)>45)go(S.page+(d<0?1:-1))});
+fc.addEventListener('keydown',e=>{if(e.key==='ArrowRight')go(S.page+1);if(e.key==='ArrowLeft')go(S.page-1)});
+$('#prev').onclick=()=>go(S.page-1);$('#next').onclick=()=>go(S.page+1);
+$('#amb').onclick=()=>{S.amb=!S.amb;render()};$('#auto').onclick=()=>{S.accent=null;S.ctx='auto';$('#ctx').value='auto';render()};
+$('#ctx').onchange=e=>{S.ctx=e.target.value;S.accent=null;render()};$('#wx').onchange=e=>{S.wx=e.target.value;render()};
+$('#snd').onclick=()=>{S.sound=!S.sound;$('#snd').textContent='Sound: '+(S.sound?'On':'Off');$('#snd').setAttribute('aria-pressed',S.sound);if(!S.sound&&window.speechSynthesis)speechSynthesis.cancel();else chime([784])};
+function fit(){const w=Math.min(466,innerWidth*.92);$('#watch').style.transform=`scale(${w/466})`;$('#scale').style.height=w+'px'}addEventListener('resize',fit);fit();
+// narrated tour: [page, title, caption, spoken text, setup]
+const TOUR=[
+ [0,'Welcome to AetherWatch AI','Design Time, Health & Wellness Your Way.','Welcome to Aether Watch A I. Design time, health and wellness your way.'],
+ [1,'Premium Watch Interface','Live time, smart greeting, steps arc, heart rate and battery.','A premium AMOLED watch face. Live time, a smart greeting, your steps arc, heart rate and battery, all at a glance.'],
+ [4,'Personalised AI Dashboard','Health score from activity, sleep, hydration, heart rate and consistency.','Your personalised A I dashboard. A health score of eighty five, built from activity, sleep, hydration, heart rate and consistency.'],
+ [2,'Health Monitoring Widgets','Heart rate, steps, sleep, activity, hydration, stress and wellness index.','Health widgets track heart rate, steps, sleep, activity, hydration and stress, with a wellness index.'],
+ [3,'Activity Tracking','Three rings for steps, movement and standing time.','Activity tracking uses three rings for steps, movement and standing time.'],
+ [5,'Weather Intelligence','The face recolours for sunny, cloudy, rainy, storm and cold days.','Weather intelligence. The watch changes its colours for sunny, cloudy, rainy, stormy and cold days.',()=>{S.wx='rain';$('#wx').value='rain';later(()=>{S.wx='storm';$('#wx').value='storm';render()},3500)}],
+ [6,'Battery AI Optimisation','Predicts usage and switches to saver mode when power runs low.','Battery A I predicts your usage and switches to saver mode when power runs low.',()=>{S.bat=22}],
+ [10,'Ambient Mode','Monochrome outline clock, low refresh, essential indicators only.','Ambient mode. A monochrome outline clock with a low refresh rate and only the essential health indicators.'],
+ [8,'Theme Personalisation','Colours, fonts and layouts, or let AI choose.','Theme personalisation. Choose colours, fonts and layouts, or let A I choose for you.',()=>{later(()=>{S.accent=THEMES[1][1];render()},2500)}],
+ [17,'Sleep Intelligence','Deep, light and REM sleep with a recovery score.','Sleep intelligence. See deep, light and R E M sleep, plus a recovery score every morning.'],
+ [18,'Medication Reminders','Morning, afternoon and night doses, one tap to tick.','Medication reminders for morning, afternoon and night. Tap to mark each dose as taken.'],
+ [22,'Voice AI Assistant','Ask for your health score or diet plan by voice.','Voice A I assistant. Just ask, what is my health score today, or show today\'s diet plan.',()=>ask(DEMO[0],false)],
+ [20,'AI Health Predictions','Trend-based risk alerts, early and gentle.','A I health predictions. The watch spots trends in stress, sleep and blood pressure and warns you early.'],
+ [21,'Family Health Mode','Check on parents or family members at a glance.','Family health mode. Check on your parents or family members at a glance, and get alerts when someone needs attention.'],
+ [11,'Future AI Experience','Diet coach for sugar and BP, with machine learning that learns your habits.','The future A I experience. A diet coach for sugar and blood pressure, powered by machine learning that learns your habits.']
+];
+function resetDemo(){S.timers.forEach(clearTimeout);S.timers=[];S.vq='';S.va='';S.ctx='auto';S.accent=null;S.font=0;S.swap=false;S.wx='sunny';$('#ctx').value='auto';$('#wx').value='sunny';if(S.batSave){S.bat=S.batSave;S.batSave=0}sosCancel()}
+function stopTour(msg){S.tourTok++;S.tourOn=false;if(window.speechSynthesis)speechSynthesis.cancel();resetDemo();$('#caption').innerHTML=msg||'<b>Tour stopped</b>Press START TOUR to begin again.';render()}
+function runStep(i,tok){if(tok!==S.tourTok)return;
+ if(i>=TOUR.length){chime([523,659,784]);stopTour('<b>Tour complete</b>Thank you for exploring AetherWatch AI.');return}
+ const t=TOUR[i],t0=Date.now();if(t[4])t[4]();S.page=t[0];render();$('#caption').innerHTML=`<b>Step ${i+1} of ${TOUR.length} · ${t[1]}</b>${t[2]}`;chime();
+ S.timers.push(setTimeout(()=>say(t[3],()=>{if(tok!==S.tourTok)return;S.timers.push(setTimeout(()=>runStep(i+1,tok),Math.max(800,3500-(Date.now()-t0))))}),600))}
+function startTour(){stopTour('<b>Starting…</b>');S.tourOn=true;const tok=++S.tourTok;S.batSave=S.bat;chime([523,784]);runStep(0,tok)}
+$('#voice').onclick=()=>{S.page=22;render();mic()};$('#startTour').onclick=startTour;$('#stopTour').onclick=()=>stopTour();
+if(window.speechSynthesis)speechSynthesis.getVoices();
+setInterval(()=>{if(!S.amb)S.steps=Math.min(S.steps+Math.random()*2,9990);S.bpm=C(S.bpm+(72-S.bpm)*.2+(Math.random()*3-1.5),60,90);S.stress=C(S.stress+(Math.random()*4-2),10,45);S.bat=Math.max(5,S.bat-(S.amb?.0004:.0015));if(S.sos<0||S.sos===0)render()},1000);
+render();
+})();
+</script>
+</body>
+</html>
